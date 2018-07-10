@@ -1,0 +1,32 @@
+diff -aurp R-3.5.1-orig/src/library/tools/R/install.R R-3.5.1/src/library/tools/R/install.R
+--- R-3.5.1-orig/src/library/tools/R/install.R	2018-07-10 14:59:55.000000000 +0200
++++ R-3.5.1/src/library/tools/R/install.R	2018-07-10 15:08:04.000000000 +0200
+@@ -133,8 +133,7 @@ if(FALSE) {
+     on.exit(do_exit_on_error())
+     WINDOWS <- .Platform$OS.type == "windows"
+ 
+-    if (WINDOWS) MAKE <- "make"
+-    else MAKE <- Sys.getenv("MAKE") # FIXME shQuote, default?
++    MAKE <- Sys.getenv("MAKE", "make") # FIXME shQuote, default?
+     rarch <- Sys.getenv("R_ARCH") # unix only
+     if (WINDOWS && nzchar(.Platform$r_arch))
+         rarch <- paste0("/", .Platform$r_arch)
+@@ -664,7 +663,8 @@ if(FALSE) {
+         if (use_configure) {
+             if (WINDOWS) {
+                 if (file.exists("configure.win")) {
+-                    res <- system("sh ./configure.win")
++                    shell <- Sys.getenv("SHELL", "sh")
++                    res <- system(paste(shell, "./configure.win"))
+                     if (res) pkgerrmsg("configuration failed", pkg_name)
+                 } else if (file.exists("configure"))
+                     message("\n",
+@@ -1748,7 +1748,7 @@ if(FALSE) {
+         Sys.setenv(R_HOME = rhome)
+         SHLIB_EXT <- ".dll"
+         SHLIB_LIBADD <- ""
+-        MAKE <- "make"
++        MAKE <- Sys.getenv("MAKE", "make")
+         ## Formerly for winshlib.mk to pick up Makeconf
+         rarch <- Sys.getenv("R_ARCH", NA_character_)
+         if(is.na(rarch)) {

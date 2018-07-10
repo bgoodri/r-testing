@@ -1,3 +1,5 @@
-PATH="${RTOOLS_HOME}\usr\bin;${PATH}"
+#PATH="${RTOOLS_HOME}\usr\bin;${PATH}"
+MAKE=${RTOOLS_HOME}/usr/bin/make
+SHELL=${RTOOLS_HOME}/usr/bin/sh
 BINPREF="/mingw$(WIN)/bin/"
 R_LIBS_USER=~/R/win-library/testing
